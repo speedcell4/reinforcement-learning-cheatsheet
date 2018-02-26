@@ -1,0 +1,74 @@
+% !TEX program = xelatex
+
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{geometry}
+
+\usepackage{xeCJK}
+% \setCJKmainfont{Source Han Sans}  % 思源黑体
+\setCJKmainfont{Source Han Serif} % 思源宋体
+
+\usepackage{fontspec}
+\newfontfamily\codefontfamily{Menlo}
+
+\usepackage{listings}
+\lstset{basicstyle=\footnotesize\codefontfamily,
+    captionpos=b,
+    breaklines=true,
+    mathescape,
+    numbers=none,
+    tabsize=4,
+    showspaces=false,
+    frame=lines,
+}
+\renewcommand{\lstlistingname}{Snippet}
+
+\usepackage{amsmath, amsbsy, amstext, amscd, amsxtra, amsopn, amssymb}
+\everymath{\displaystyle}
+
+\newcommand{\obey}{\,\thicksim\,}
+\newcommand{\argmax}{\operatorname{arg\,max}}
+
+\newcommand{\app}{a^{\prime}}
+\newcommand{\spp}{s^{\prime}}
+\newcommand{\thetam}{\theta^{-}}
+
+\title{Reinforcement Learning Cheatsheet}
+\author{Izen}
+
+\begin{document}
+\maketitle
+
+\section{Deep Q-networks} % (fold)
+\label{sec:deep_q_networks}
+
+\begin{align}
+	\ell(\theta) &= \mathbb{E}_{(s,a,r,\spp)\obey \mathcal{U}(\mathcal{D})}\left[ \left(y^{\text{DQN}} - Q(s,a;\theta)\right)^2 \right] \\
+	y^{\text{DQN}} &= r + \gamma\,Q(\spp,\underset{\app}{\argmax}~Q(\spp,\app;\thetam);\thetam)
+\end{align}
+
+% section deep_q_networks (end)
+
+\section{Double Deep Q-networks} % (fold)
+\label{sec:double_deep_q_networks}
+
+\begin{align}
+	\ell(\theta) &= \mathbb{E}_{(s,a,r,\spp)\obey \mathcal{P}(\mathcal{D})}\left[ \left(y^{\text{DDQN}} - Q(s,a;\theta)\right)^2 \right] \\
+	y^{\text{DDQN}} &= r + \gamma\,Q(\spp,\underset{\app}{\argmax}~Q(\spp,\app;\theta);\thetam)
+\end{align}
+
+% section double_deep_q_networks (end)
+
+\section{Dueling Networks} % (fold)
+\label{sec:dueling_networks}
+
+\begin{align}
+	Q(s,a;\theta,\alpha,\beta) &= V(s;\theta,\beta) + A(s,a;\theta,\alpha) \\
+	Q(s,a;\theta,\alpha,\beta) &= V(s;\theta,\gamma) + \left( A(s,a;\theta,\alpha)- \underset{\app\in \mathcal{A}}{\max}~A(s,\app;\theta,\alpha) \right) \\
+	Q(s,a;\theta,\alpha,\beta) &= V(s;\theta,\gamma) + \left( A(s,a;\theta,\alpha)- \dfrac{1}{\vert \mathcal{A} \vert}\sum_{\app}A(s,\app;\theta,\alpha) \right)
+\end{align}
+
+% section dueling_networks (end)
+
+	
+\end{document}
